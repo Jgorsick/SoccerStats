@@ -30,6 +30,16 @@ namespace SoccerStats
             {
                 return reader.ReadToEnd();
             }
+
+            public static List<string> ReadSoccerResults(string fileName)
+        {
+            var soccerResults = new List<string>();
+            return soccerResults;
+            using (var reader = new StreamReader(fileName))
+            {
+                return soccerResults;
+            }
+        }
         }
     }
 }
