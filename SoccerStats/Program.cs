@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace SoccerStats
 {
@@ -10,6 +11,8 @@ namespace SoccerStats
     {
         static void Main(string[] args)
         {
+            string currentDirectory = Directory.GetCurrentDirectory();
+            DirectoryInfo directory = new DirectoryInfo(currentDirectory);
         }
     }
 }
