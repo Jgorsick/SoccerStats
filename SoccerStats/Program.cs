@@ -15,7 +15,7 @@ namespace SoccerStats
             DirectoryInfo directory = new DirectoryInfo(currentDirectory);
             var fileName = Path.Combine(directory.FullName, "SoccerGameResults.csv");
             var fileContents = ReadFile(fileName);
-            string[] fileLines = fileContents.Split(new char[] { '\r', '\n'});
+            string[] fileLines = fileContents.Split(new char[] { '\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
             foreach(var line in fileLines)
             {
                 Console.WriteLine(line);
@@ -30,8 +30,9 @@ namespace SoccerStats
             {
                 return reader.ReadToEnd();
             }
+        }
 
-            public static List<string> ReadSoccerResults(string fileName)
+        public static List<string> ReadSoccerResults(string fileName)
         {
             var soccerResults = new List<string>();
             return soccerResults;
@@ -42,4 +43,4 @@ namespace SoccerStats
         }
         }
     }
-}
+
