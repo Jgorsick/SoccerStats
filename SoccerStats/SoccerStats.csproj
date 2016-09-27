@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameResults.cs" />
+    <Compile Include="NewsResults.cs" />
+    <Compile Include="NewsSearch.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerComparer.cs" />
     <Compile Include="Program.cs" />
