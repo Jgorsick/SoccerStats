@@ -1,1 +1,2 @@
 ﻿Hello, world!
+Text Analytics API Key: efe1a20ace464a3dabc31b1826250bc9

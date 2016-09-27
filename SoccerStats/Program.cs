@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using System.Net;
+using System.Text;
 
 namespace SoccerStats
 {
@@ -141,7 +142,7 @@ namespace SoccerStats
 
         }
     
-    public static string GetNewsForPlayer()
+        public static string GetNewsForPlayer()
     {
         var webClient = new WebClient();
         byte[] googleHome = webClient.DownloadData("https://www.google.com");
@@ -166,7 +167,27 @@ namespace SoccerStats
                 results = serializer.Deserialize<NewsSearch>(jsonTextReader).NewsResults;
             }
                 return results;
+        }
+        public static SentimentResponse GetSentimentResponse(List<NewsResult> newsResult)
+        {
+            var sentimentResponse = new SentimentResponse();
+            var sentimentRequest = new SentimentRequest();
+            sentimentRequest.Documents = new List<Document>();
 
+            foreach (var result in newsResults)
+            {
+                sentimentRequest.Documents.Add(new Document { Id = result.Headline, Text = result.Text });
+            }
+
+            var webClient = new WebClient();
+            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "");
+            webClient.Headers.Add(HttpRequestHeader.Accept, "application/json");
+            webClient.Headers.Add(HttpRequestHeader.ContentType, "applicationException/json" );
+            string requestJson = JsonConvert.SerializeObject(sentimentRequest);
+            byte[] requestBytes = Encoding.UTF8.GetBytes(requestJson);
+            byte[] response = webClient.UploadData("https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment", requestBytes);
+            string sentiments = Encoding.UTF8.GetString(response);
+            sentimentResponse = JsonConvert.DeserializeObject<SentimentResponse>(sentiments);
         }
     }
 }

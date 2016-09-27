@@ -48,12 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameResults.cs" />
-    <Compile Include="NewsResults.cs" />
     <Compile Include="NewsSearch.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerComparer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SentimentRequest.cs" />
+    <Compile Include="SentimentResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -64,11 +65,6 @@
     <None Include="SoccerGameResults.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="data.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions />
