@@ -11,10 +11,10 @@ namespace SoccerStats
     public class SentimentResponse
     {
         [JsonPropertyName(PropertyName = "documents")]
-        public List<Document> Sentiments { get; set; }
+        public List<Sentiment> Sentiments { get; set; }
     }
 
-    public class Document
+    public class Sentiment
     {
         [JsonPropertyName(PropertyName = "id")]
           public string Id { get; set; }

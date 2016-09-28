@@ -18,13 +18,28 @@ namespace SoccerStats
             fileName = Path.Combine(directory.FullName, "players.json");
             var players = DeserializePlayers(fileName);
             var topTenPlayers = GetTopTenPlayers(players);
-
             foreach (var player in topTenPlayers)
             {
-                List<NewsResult> newsResults = GetNewsForPlayer(string.Format("{0}{1}", player.FirstName, player.SecondName));
+                List<NewsResult> newsResults = GetNewsForPlayer(string.Format("{0} {1}", player.FirstName, player.SecondName));
+                SentimentResponse sentimentResponse = GetSentimentResponse(newsResults);
+                foreach (var sentiment in sentimentResponse.Sentiments)
+                {
+                    foreach (var newsResult in newsResults)
+                    {
+                        if (newsResult.Headline == sentiment.Id)
+                        {
+                            double score;
+                            if (double.TryParse(sentiment.Score, out score))
+                            {
+                                newsResult.SentimentScore = score;
+                            }
+                            break;
+                        }
+                    }
+                }
                 foreach (var result in newsResults)
                 {
-                   Console.WriteLine(string.Format("Date: {0:f}, Headline: {1} Summary {2} \r\n", result.DatePublished, result.Headline, result.Summary));
+                   Console.WriteLine(string.Format("Sentiment Score: {0}, Date: {1:f}, Headline: {2} Summary {3} \r\n", result.SentimentScore, result.DatePublished, result.Headline, result.Summary));
                     Console.ReadKey();
                 }
             }
@@ -157,37 +172,40 @@ namespace SoccerStats
         {
             var results = new List<NewsResult>();
             var webClient = new WebClient();
-            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "Place API Key Here");
+            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "88f3397d4ac2430eb2351c26300be997");
             byte[] searchResults = webClient.DownloadData(string.Format("https://api.cognitive.microsoft.com/bing/v5.0/news/search?q={0}&mkt=en-us", playerName));
             var serializer = new JsonSerializer();
             using (var stream = new MemoryStream(searchResults))
             using (var reader = new StreamReader(stream))
-            using (var jsonTextReader = new JsonTextReader(reader))
+            using (var jsonReader = new JsonTextReader(reader))
             {
-                results = serializer.Deserialize<NewsSearch>(jsonTextReader).NewsResults;
+                results = serializer.Deserialize<NewsSearch>(jsonReader).NewsResults;
             }
                 return results;
         }
         public static SentimentResponse GetSentimentResponse(List<NewsResult> newsResults)
         {
             var sentimentResponse = new SentimentResponse();
-            var sentimentRequest = new SentimentRequest();
+            var sentimentRequest = new SentimentRequest();            
+            
+            
             sentimentRequest.Documents = new List<Document>();
 
             foreach (var result in newsResults)
             {
-                sentimentRequest.Documents.Add(new Document { Id = result.Headline, Text = result.Text });
+                sentimentRequest.Documents.Add(new Document { Id = result.Headline, Text = result.Summary });
             }
-
+                           
             var webClient = new WebClient();
-            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "");
+            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "efe1a20ace464a3dabc31b1826250bc9");
             webClient.Headers.Add(HttpRequestHeader.Accept, "application/json");
-            webClient.Headers.Add(HttpRequestHeader.ContentType, "applicationException/json" );
+            webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json" );
             string requestJson = JsonConvert.SerializeObject(sentimentRequest);
             byte[] requestBytes = Encoding.UTF8.GetBytes(requestJson);
             byte[] response = webClient.UploadData("https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment", requestBytes);
             string sentiments = Encoding.UTF8.GetString(response);
             sentimentResponse = JsonConvert.DeserializeObject<SentimentResponse>(sentiments);
+            return sentimentResponse;
         }
     }
 }
