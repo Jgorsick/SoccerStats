@@ -142,7 +142,7 @@ namespace SoccerStats
 
         }
     
-        public static string GetNewsForPlayer()
+        public static string GetGoogleHomePage()
     {
         var webClient = new WebClient();
         byte[] googleHome = webClient.DownloadData("https://www.google.com");
@@ -157,7 +157,7 @@ namespace SoccerStats
         {
             var results = new List<NewsResult>();
             var webClient = new WebClient();
-            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "88f3397d4ac2430eb2351c26300be997");
+            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "Place API Key Here");
             byte[] searchResults = webClient.DownloadData(string.Format("https://api.cognitive.microsoft.com/bing/v5.0/news/search?q={0}&mkt=en-us", playerName));
             var serializer = new JsonSerializer();
             using (var stream = new MemoryStream(searchResults))
@@ -168,7 +168,7 @@ namespace SoccerStats
             }
                 return results;
         }
-        public static SentimentResponse GetSentimentResponse(List<NewsResult> newsResult)
+        public static SentimentResponse GetSentimentResponse(List<NewsResult> newsResults)
         {
             var sentimentResponse = new SentimentResponse();
             var sentimentRequest = new SentimentRequest();
