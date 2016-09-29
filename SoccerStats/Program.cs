@@ -172,7 +172,7 @@ namespace SoccerStats
         {
             var results = new List<NewsResult>();
             var webClient = new WebClient();
-            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "88f3397d4ac2430eb2351c26300be997");
+            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "Insert API Key");
             byte[] searchResults = webClient.DownloadData(string.Format("https://api.cognitive.microsoft.com/bing/v5.0/news/search?q={0}&mkt=en-us", playerName));
             var serializer = new JsonSerializer();
             using (var stream = new MemoryStream(searchResults))
@@ -197,7 +197,7 @@ namespace SoccerStats
             }
                            
             var webClient = new WebClient();
-            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "efe1a20ace464a3dabc31b1826250bc9");
+            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "Insert API Key");
             webClient.Headers.Add(HttpRequestHeader.Accept, "application/json");
             webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json" );
             string requestJson = JsonConvert.SerializeObject(sentimentRequest);
