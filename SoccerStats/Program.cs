@@ -172,7 +172,7 @@ namespace SoccerStats
         {
             var results = new List<NewsResult>();
             var webClient = new WebClient();
-            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "Insert API Key");
+            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "Insert API key Here");
             byte[] searchResults = webClient.DownloadData(string.Format("https://api.cognitive.microsoft.com/bing/v5.0/news/search?q={0}&mkt=en-us", playerName));
             var serializer = new JsonSerializer();
             using (var stream = new MemoryStream(searchResults))
@@ -193,11 +193,11 @@ namespace SoccerStats
 
             foreach (var result in newsResults)
             {
-                sentimentRequest.Documents.Add(new Document { Id = result.Headline, Text = result.Summary });
+                sentimentRequest.Documents.Add( new Document { Id = result.Headline, Text = result.Summary });
             }
                            
             var webClient = new WebClient();
-            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "Insert API Key");
+            webClient.Headers.Add("Ocp-Apim-Subscription-Key", "Insert API key Here");
             webClient.Headers.Add(HttpRequestHeader.Accept, "application/json");
             webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json" );
             string requestJson = JsonConvert.SerializeObject(sentimentRequest);
@@ -209,4 +209,15 @@ namespace SoccerStats
         }
     }
 }
+//List<Part> parts = new List<Part>();
+
+//// Add parts to the list.
+//parts.Add(new Part() { PartName = "crank arm", PartId = 1234});
+//        parts.Add(new Part() { PartName = "chain ring", PartId = 1334 });
+//        parts.Add(new Part() { PartName = "regular seat", PartId = 1434 });
+//        parts.Add(new Part() { PartName = "banana seat", PartId = 1444 });
+//        parts.Add(new Part() { PartName = "cassette", PartId = 1534 });
+//        parts.Add(new Part() { PartName = "shift lever", PartId = 1634 });
+
+
  

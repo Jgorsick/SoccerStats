@@ -1,24 +1,20 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace SoccerStats
 {
 
     public class SentimentResponse
     {
-        [JsonPropertyName(PropertyName = "documents")]
+        [JsonProperty(PropertyName = "documents")]
         public List<Sentiment> Sentiments { get; set; }
     }
 
     public class Sentiment
     {
-        [JsonPropertyName(PropertyName = "id")]
+        [JsonProperty(PropertyName = "id")]
           public string Id { get; set; }
-        [JsonPropertyName(PropertyName = "score")]
+        [JsonProperty(PropertyName = "score")]
         public string Score { get; set; }
     }
 
